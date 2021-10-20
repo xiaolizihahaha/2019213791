@@ -4,7 +4,7 @@ html{
 
 div.t1{
     display: grid;
-    grid-template-rows: 150px 150px 310px;
+    grid-template-rows: 150px 150px 320px;
     grid-template-columns: 300px minmax(600px,700px);
     grid-gap:10px;
     justify-content: center;
@@ -14,7 +14,7 @@ div.no1{
     grid-row-end: 3;
     grid-column-start: 1;
     grid-column-end: 2;
-    background-color: rgb(17, 17, 17);
+    background-color: rgba(17, 17, 17);
     display: grid;
     grid-template-rows: 60px 60px 180px;
     grid-template-columns: 70px 180px 50px;
@@ -83,8 +83,12 @@ div.no3{
     grid-column-start: 1;
     grid-column-end: 2;
     background-color: rgb(244,208,62);
+    display: grid;
+    grid-template-rows: 20% 20% 20% 20% 20%;
 }
-button{
+
+div.no3 button{
+
     background-color:  rgb(244,208,62);
     width: 300px;
     border:0px;
@@ -93,21 +97,61 @@ button{
     -webkit-transition-duration: 0.2s; 
     transition-duration: 0.2s;
 }
-button:hover {
+div.no3 button:hover {
     background-color: #000000; 
     color: rgb(244,208,62);
 }
-button:active{
+div.no3 button:active{
     background-color:gray; 
     color: rgb(244,208,62);
 }
+div.no3>div#no31{
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+div.no3>div#no32{
+    grid-row-start: 2;
+    grid-row-end: 3;
+}
+div.no3>div#no33{
+    grid-row-start: 3;
+    grid-row-end: 4;
+}
+div.no3>div#no34{
+    grid-row-start: 4;
+    grid-row-end: 5;
+}
+div.no3>div#no35{
+    grid-row-start: 5;
+    grid-row-end: 6;
+}
+div.no3> div#no35{
+    display: grid;
+    grid-template-columns: 50px 80px 80px 80px;
+}
+div.no3 a#no351{
+    grid-column-start: 2;
+    grid-column-end: 3;
+}
+
+div.no3 a#no352{
+    grid-column-start: 3;
+    grid-column-end: 4;
+}
+
+div.no3 a#no353{
+    grid-column-start:4;
+    grid-column-end: 5;
+}
+
+
 
 div.no4{
     grid-row-start: 2;
     grid-row-end: 4;
     grid-column-start: 2;
     grid-column-end: 3;
-    background-color: white;
+    background-color: rgba(255,255,255,0.7);
     display: grid;
     grid-template-rows: 50px 50px 140px 60px 150px;
     grid-template-columns: 40px 560px;
