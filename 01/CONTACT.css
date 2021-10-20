@@ -1,0 +1,50 @@
+html{
+    background-color:black;
+}
+div.t1{
+    display: grid;
+    grid-template-rows: 75px 400px;
+    grid-template-columns: 500px 300px;
+    justify-content: center;
+}
+div.t1>h3{
+    grid-row-start: 1;
+    grid-row-end: 2;
+    grid-column-start: 1;
+    grid-column-end:3;
+    color:rgb(244,208,62);
+    text-align: center;
+    font-size: 25px;
+
+}
+div.t1>iframe{
+    grid-row-start: 2;
+    grid-row-end: 3;
+    grid-column-start: 1;
+    grid-column-end:2;    
+}
+div.t1>fieldset{
+    grid-row-start: 2;
+    grid-row-end: 3;
+    grid-column-start: 2;
+    grid-column-end:3;
+    color: rgb(244,208,62);
+    width: 20vw;
+}
+div.t1>fieldset>button{
+    width:150px;
+    height:50px;
+     background-color: white; 
+    color: black;
+    -webkit-transition-duration: 0.2s; 
+    transition-duration: 0.2s;
+    font-size: 15px;
+}
+div.t1>fieldset>button:hover {
+    background-color: black;
+    color:rgb(245, 197, 3);
+}
+div.t1>fieldset>button:active{
+    background-color:gray; 
+    color: rgb(244,208,62);
+}
