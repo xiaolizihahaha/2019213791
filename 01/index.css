@@ -1,12 +1,13 @@
 html{
     background-color:rgb(201,213,229);
+    font-size:100%;
 }
 
 div.t1{
     display: grid;
-    grid-template-rows: 150px 150px 320px;
-    grid-template-columns: 300px minmax(600px,700px);
-    grid-gap:10px;
+    grid-template-rows: 24% 24% 60%;
+    grid-template-columns: 33% minmax(50%,66%) ;
+    grid-gap :0.5rem;;
     justify-content: center;
 }
 div.no1{
@@ -16,10 +17,10 @@ div.no1{
     grid-column-end: 2;
     background-color: rgba(17, 17, 17);
     display: grid;
-    grid-template-rows: 60px 60px 180px;
-    grid-template-columns: 70px 180px 50px;
-    margin: 0px;
-    padding: 0px;
+    grid-template-rows: 20% 20% 60%;
+    grid-template-columns: 20% 60% 20%;
+    margin: 0;
+    padding: 0;
 
 }
 div.no1>h1{
@@ -29,9 +30,14 @@ div.no1>h1{
     grid-column-end: 4;   
     color:rgb(244,208,62);
     text-align: center;
-    font-size: 35px;
-    
+ 
+} 
+@media(max-width:615px){
+    div.no1>h1{
+        font-size:1.6rem;;
+    }
 }
+
 div.no1>h1>span{
     color: white;
 }
@@ -42,12 +48,10 @@ div.no1>h3{
     grid-column-end: 4;
     color:rgb(219,219,219);
     text-align: center;
-    width:300px;
 
 }
-div.no1>img{
-    width:150px;
-    height:150px;
+div.no1 img{
+    width:60%;
     grid-row-start: 3;
     grid-row-end: 4;
     grid-column-start: 2;
@@ -57,6 +61,11 @@ div.no1>img{
 
     overflow: hidden;
 }
+@media(max-width:1000px){
+    div.no1 img{
+        width:80%;
+    }
+}
 div.no2{
     grid-row-start: 1;
     grid-row-end: 2;
@@ -65,13 +74,13 @@ div.no2{
     background-color: rgb(17, 17, 17);
     display: grid;
 
-    grid-template-rows: 50px 50px 50px;
+    grid-template-rows: 33% 33% 33%;
 }
 div.no2>h2{
     grid-row-start: 2;
     grid-row-end: 3; 
     width:100vw;
-    text-indent: 40px;
+    text-indent: 2.4rem;
     color:rgb(244,208,62) ;
 }
 div.no2>h2>span{
@@ -91,10 +100,10 @@ div.no3{
 div.no3 button{
 
     background-color:  rgb(244,208,62);
-    width: 300px;
+    width: 100%;
     border:0px;
     font-weight:500;
-    font-size: 20px;
+    font-size: 1.3rem;
     -webkit-transition-duration: 0.2s; 
     transition-duration: 0.2s;
 }
@@ -128,7 +137,7 @@ div.no3>div#no35{
 }
 div.no3> div#no35{
     display: grid;
-    grid-template-columns: 50px 80px 80px 80px;
+    grid-template-columns: 10% 28% 28% 35%;
 }
 div.no3 a#no351{
     grid-column-start: 2;
@@ -154,8 +163,8 @@ div.no4{
     grid-column-end: 3;
     background-color: rgba(255,255,255,0.7);
     display: grid;
-    grid-template-rows: 45px 30px 140px 85px 150px;
-    grid-template-columns: 40px 560px;
+    grid-template-rows: 10% 6% 31% 18% 33%;
+    grid-template-columns: 6% 94%;
     
 }
 div.no4>h3#no41{
@@ -163,9 +172,9 @@ div.no4>h3#no41{
     grid-row-end: 2;
     grid-column-start: 2;
     grid-column-end: 3;   
-    width: 500px;
+    width: 60vw;
     font-family:initial;
-    font-size: 30px;
+    font-size: 1.7rem;
     font-weight: 1000;   
 
 }
@@ -177,10 +186,10 @@ div.no4>p#no42{
     grid-row-end: 3;
     grid-column-start: 2;
     grid-column-end: 3;   
-    width: 300px;
+    width: 60vw;
 
     /* font-family: sans-serif; */
-    font-size:18px;
+    font-size:1rem;
     font-weight: 550;
 
 }
@@ -189,9 +198,9 @@ div.no4>p#no43{
     grid-row-end: 4;
     grid-column-start: 2;
     grid-column-end: 3;   
-    width: 500px;
+    width: 60vw;
     color:gray;
-    line-height: 30px;
+    line-height: 2rem;
  
     text-align: left;
 }
@@ -200,9 +209,9 @@ div.no4>h3#no44{
     grid-row-end: 5;
     grid-column-start: 2;
     grid-column-end: 3;   
-    width: 500px;
+    width: 60vw;
     font-family:initial;
-    font-size: 30px;
+    font-size: 1.7rem;
     font-weight: 1000;  
 
 }
@@ -211,12 +220,12 @@ div.no4>div{
     grid-row-end: 6;
     grid-column-start: 2;
     grid-column-end: 3;   
-    width: 100vw;
+    width: 60vw;
     display: grid;
-    grid-template-rows: 37.5px 37.5px 37.5px 37.5px;
-    grid-template-columns:200px 365px;
-    grid-gap:5px;
-    text-indent: 20px;
+    grid-template-rows: 23% 23% 23% 23%;
+    grid-template-columns:35% 60%;
+    grid-gap:0.3rem;
+    text-indent: 1.1rem;
 }
 
 
@@ -229,7 +238,7 @@ div.no5>span#no51{
     color: black;
     margin:2px;
     padding:2px;
-    width:190px;
+    width:80%;
 }
 div.no5>span#no52{
     grid-row-start: 1;
@@ -240,7 +249,7 @@ div.no5>span#no52{
     color: white;
     margin:2px;
     padding:2px;
-    width:250px;
+    width:85%;
 }
 div.no5>span#no53{
     grid-row-start: 2;
@@ -251,7 +260,7 @@ div.no5>span#no53{
     color: black;  
     margin:2px;
     padding:2px;  
-    width:190px;
+    width:80%;
 }
 div.no5>span#no54{
     grid-row-start: 2;
@@ -262,7 +271,7 @@ div.no5>span#no54{
     color: white;
     margin:2px;
     padding:2px;
-    width:250px;
+    width:85%;
 }
 
 div.no5>span#no55{
@@ -274,7 +283,7 @@ div.no5>span#no55{
     color: black;
     margin:2px;
     padding:2px;
-    width:190px;
+    width:80%;
 }
 div.no5>span#no56{
     grid-row-start: 3;
@@ -285,7 +294,7 @@ div.no5>span#no56{
     color: white;
     margin:2px;
     padding:2px;
-    width:250px;
+    width:85%;
 }
 div.no5>span#no57{
     grid-row-start: 4;
@@ -296,7 +305,7 @@ div.no5>span#no57{
     color: black;
     margin:2px;
     padding:2px;
-    width:190px;
+    width:80%;
 }
 div.no5>span#no58{
     grid-row-start: 4;
@@ -307,5 +316,5 @@ div.no5>span#no58{
     color: white;
     margin:2px;
     padding:2px;
-    width:250px;
+    width:85%;
 }
