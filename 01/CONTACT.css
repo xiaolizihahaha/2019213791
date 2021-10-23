@@ -1,44 +1,54 @@
 html{
     background-color:black;
+    font-size: 17px;
 }
 div.t1{
     display: grid;
-    grid-template-rows: 75px 400px;
-    grid-template-columns: 500px 300px;
+    grid-template-rows: 9% 13% 82%;
+    grid-template-columns: 10% 80% 10%;
     justify-content: center;
 }
 div.t1>h3{
-    grid-row-start: 1;
-    grid-row-end: 2;
-    grid-column-start: 1;
-    grid-column-end:3;
     color:rgb(244,208,62);
     text-align: center;
-    font-size: 25px;
-
+    font-size: 1.5rem;
 }
-div.t1>iframe{
-    grid-row-start: 2;
-    grid-row-end: 3;
-    grid-column-start: 1;
-    grid-column-end:2;    
+div.t1>h3#t11{
+    grid-row-start: 1;
+    grid-row-end: 2;
+    grid-column-start: 2;
+    grid-column-end:3;
 }
-div.t1>fieldset{
+div.t1>h3#t12{
     grid-row-start: 2;
     grid-row-end: 3;
     grid-column-start: 2;
     grid-column-end:3;
+}
+@media(max-width:615px){
+    div.t1>h3{
+        font-size: 1rem;
+    }
+}
+
+div.t1>fieldset{
+    grid-row-start: 3;
+    grid-row-end: 4;
+    grid-column-start: 2;
+    grid-column-end:3;
     color: rgb(244,208,62);
     width: 20vw;
+    margin:0 auto;
 }
 div.t1>fieldset>button{
-    width:150px;
-    height:50px;
-     background-color: white; 
+    width:100%;
+    height:15%;
+    background-color: white; 
     color: black;
     -webkit-transition-duration: 0.2s; 
     transition-duration: 0.2s;
-    font-size: 15px;
+    font-size: 1rem;
+
 }
 div.t1>fieldset>button:hover {
     background-color: black;
