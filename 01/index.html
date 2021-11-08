@@ -6,6 +6,7 @@
         <meta charset="utf-8">
         <title>My Home</title>
         <link href="index.css" type="text/css" rel="stylesheet">
+        <script src="index.js" defer></script>
     </head>
     <body>
         <div class="t1">
@@ -69,7 +70,7 @@
             
         </div>
 
-        <div class="t2">
+        <div id="album-view" class="t2">
             <div class="t21">
                 <h2>大学活动</h2>
                 <figure id="t211">
@@ -85,17 +86,16 @@
                 </figure>
             </div>   
             
-            <div class="t22">
+            <div id="album-view" class="t22">
                 <h2>奋斗时刻</h2>
                 <figure id="t221">
                     <img src="img/pic4.png" alt="学习笔记1" title="学习笔记1" >
-                    <br/>
+
                     <p>学习笔记1</p>
                 </figure>
 
                 <figure id="t222">
                     <img src="img/pic5.png" alt="学习笔记2" title="学习笔记2">
-                    <br/>
                     <p>学习笔记2</p>
                 </figure>
             </div> 
@@ -103,17 +103,18 @@
                 <h2>我的摄影</h2>
                 <figure id="t231">
                     <img src="img/pic6.jpg" alt="摄影1" title="摄影1" >
-                    <br/>
                     <p>花和天空</p>
                 </figure>
 
                 <figure id="t232">
                     <img src="img/pic7.jpg" alt="摄影2" title="摄影2">
-                    <br/>
                     <p>小巷</p>
                 </figure>
-            </div>  
+            </div> 
             
+        </div>
+        <div id="modal-view" class="hidden" touch-action="none">
+
         </div>
         
     </body>

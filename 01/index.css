@@ -730,3 +730,51 @@ figure#t232
         grid-column-end: 2;
     }
 }
+
+
+
+#modal-view{
+    position:fixed;
+
+    height: 100vh;
+    width:100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0,0,0,0.9);
+    border: 0px;
+    margin: 0px;
+    padding: 0px;
+}
+
+
+#modal-view.hidden{
+    display: none;
+}
+
+#modal-view.no-scroll{
+    overflow: hidden;
+}
+
+#modal-view img{
+    height: 80%;
+
+    animation: fadein 0.5s;
+}
+
+@media(max-width:564px){
+    #modal-view img{
+        height: 50%;
+
+    }
+}
+
+
+@keyframes fadein{
+    from{
+        opacity:0;
+    }
+    to{
+        opacity:1;
+    }
+}
