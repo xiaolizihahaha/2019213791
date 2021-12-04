@@ -496,7 +496,7 @@ div.t2>div.t21{
     grid-row-end: 3;
     grid-column-start: 2;
     grid-column-end: 3;
-    background-color: burlywood;
+    background-color:rgb(244,208,62);
     display: grid;
     grid-template-rows:10% 85%;
     grid-template-columns:50% 50%;
@@ -577,7 +577,7 @@ div.t2>div.t22{
     grid-row-end: 4;
     grid-column-start: 2;
     grid-column-end: 3;
-    background-color: burlywood;
+    background-color: rgb(244,208,62);
     display: grid;
     grid-template-rows:10% 89%;
     grid-template-columns:50% 50%;
@@ -657,7 +657,7 @@ div.t2>div.t23{
     grid-row-end: 5;
     grid-column-start: 2;
     grid-column-end: 3;
-    background-color: burlywood;
+    background-color: rgb(244,208,62);
     display: grid;
     grid-template-rows:10% 85%;
     grid-template-columns:50% 50%;
