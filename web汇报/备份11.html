@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <meta charset="utf-8">
+        <title>期末大作业</title>
+        <link href="index.css" type="text/css" rel="stylesheet">
+        <script>
+            //获取屏幕的宽度、高度,根据设计图中的canvas画布的占比进行设置
+            var clientWidth = document.documentElement.clientWidth/1.2;
+            var clientHeight = document.documentElement.clientHeight*1.1;
+            var direction=-1;
+            var timer;
+            var already=0;
+            var mybox=[];           //存放动态创建的每个小格子
+            var value=[];           //存放动态创建的每个小格子的高度的值
+        //    var gao=[0,3,44,38,5,47,15,36,26,27,2,46,4,19,50,48];    //存放每一小格的高度
+        //    3 44 38 5 47 15 36 26 27 2 46 4 19 50 48
+            var gao=[0];
+            var select1=1;           //选择一个方块进行移动
+            var select2=0;
+
+            var Y=Math.floor(clientHeight)*2/5;     //表示每一个小格的Y轴开始位置
+    //        var Width=Math.floor(clientWidth)*1/gao.length/2.5; //myArea.canvas.width/20;    ------表示每一个小格的宽度
+            var myinfor;
+
+            var myArea={
+                canvas:document.createElement("canvas"),
+                start:function(){
+                    this.canvas.width=Math.floor(clientWidth)*4/5;
+                    this.canvas.height=Math.floor(clientHeight)*4/5;
+
+                    this.canvas.style.border="2px solid #BD92C4";
+                    this.canvas.style.background="#EFBCCD";                   
+                    this.context=this.canvas.getContext("2d");
+
+                    document.body.insertBefore(this.canvas,document.body.childNodes[0]);
+                    this.frameNo=0;
+                //    this.interval=setInterval(updateArea,20);
+                },
+                clear:function(){
+                    this.context.clearRect(0,0,this.canvas.width,this.canvas.height);
+                //    this.canvas.height = this.canvas.height+1;
+                //    this.canvas.width = this.canvas.width+1;
+                },
+
+            }
+
+            function StartLoad()
+            {
+                myArea.start();
+                //计算小格子高度的总和，便于后续设置每个小个子的高度，防止溢出
+
+                
+            }
+
+            function produce()
+            {
+
+                myArea.clear();
+                document.getElementById("produce").disabled=true;
+                
+                let text=document.getElementById("text");
+                console.log(text.value.length);
+                console.log(text.value);
+
+                let num=0;
+
+                for(var i=0;i<text.value.length;i++){
+                console.log("11111");     
+                console.log();               
+                    if(isNum(text.value[i]))
+                    {
+                        console.log("!11");
+                        num=num+text.value[i]-'0';
+                    }
+                    else
+                    {
+
+                        gao.push(num);
+                        num=0;
+                    }
+                    
+                    
+                }
+
+
+                if(num!=0)
+                gao.push(num);
+                console.log(gao);
+
+                var Width=Math.floor(clientWidth)*1/gao.length/2.5; //myArea.canvas.width/20;    ------表示每一个小格的宽度
+
+                let max=getMax(gao);
+                console.log(max);
+
+                //创建每个小格子  0位置不用，但占着作为中间变量
+                mybox.push(new component(0,0,0,"white",0,0));
+                value.push(new component(0));
+
+                for(let i=1;i<gao.length;i++)
+                {
+
+                        mybox.push(new component(i,Width,-gao[i]*myArea.canvas.height/max/4,"#BC8EBD",i*2*Width,Y,"box",gao[i]))
+                        value.push(new component(i,Width,20,"black",i*2*Width,Y,"text",gao[i],"17px"))
+                       
+                 }
+                
+            }
+
+            function component(id,width,height,color,middle,y,type,text,size)
+            {
+                
+                this.id=id;
+                this.flag=1;        //1:本位    2：下移位   3:左右移动位    4.新位置
+                this.width=width;
+                this.height=height;
+
+                this.color=color;
+                this.middle=middle;                 //辅助变量
+                this.originMiddle=middle;           //记录每个固定分好的的格子          
+                this.y=y;
+                this.type=type;
+                this.text=text;
+                this.size=size;
+                 
+                ctx=myArea.context; 
+
+                if(type=="text"){
+                    this.x=this.middle;
+                    ctx.font=this.size+" Consolas";
+                    ctx.fillStyle=color;
+                    ctx.fillText(this.text,this.x,this.y);
+                }
+                else{
+                    this.x=this.middle-this.width/2;  
+                    ctx.fillStyle=color;
+                    ctx.fillRect(this.x,this.y,this.width,this.height);                    
+                } 
+
+                this.update=function(){
+                    ctx=myArea.context; 
+
+                    if(type=="text"){
+                        this.x=this.middle;
+                        ctx.font=this.size+" Consolas";
+                        ctx.fillStyle=color;
+                        ctx.fillText(this.text,this.x,this.y);
+                    }
+                    else{
+                        this.x=this.middle-this.width/2;  
+                        ctx.fillStyle=color;
+                        ctx.fillRect(this.x,this.y,this.width,this.height);                    
+                    }                    
+                }
+                this.newPos=function(){
+                    if(select1!=0 && select2!=0)
+                    {
+                        if(select1==this.id){
+                            if(direction==1)
+                            {
+                                if(this.flag==1){
+                                    if(this.y<1.9*Y)
+                                        this.y+=3;
+                                    else    
+                                        this.flag=2;  
+                                     if(this.type=="box")
+                                    {
+                                        ctx.clearRect(this.x,this.y,this.width,this.height);
+                                        ctx.rect(this.x,this.y,this.width,this.height);
+                                        ctx.fillStyle="#9EA9BF";
+                                        ctx.fillRect(this.x,this.y-6,this.width,this.height);                                      
+                                    }                               
+                                                                
+                                }
+    
+                                if(this.flag==2){ 
+                                    if(this.type=="box")
+                                    {
+                                        ctx.clearRect(this.x,this.y,this.width,this.height);
+                                        ctx.rect(this.x,this.y,this.width,this.height);
+                                        ctx.fillStyle="#9EA9BF";
+                                        ctx.fillRect(this.x,this.y-6,this.width,this.height);                                      
+                                    }                            
+    
+                                    if(this.middle>mybox[select2].originMiddle){
+                                        this.middle-=1;
+                                        if(this.type=="text")
+                                            this.x=this.middle;
+                                        else
+                                            this.x=this.middle-this.width;
+                                    }                          
+                                    else
+                                        this.flag=3;                               
+    
+                                }
+                                if(this.flag==3){
+                                    if(this.y>Y)
+                                        this.y-=3;
+                                    else  
+                                        this.flag=4;   
+                                   if(this.type=="box")
+                                    {
+                                        ctx.clearRect(this.x,this.y,this.width,this.height);
+                                        ctx.rect(this.x,this.y,this.width,this.height);
+                                        ctx.fillStyle="#9EA9BF";
+                                        ctx.fillRect(this.x,this.y-6,this.width,this.height);                                      
+                                    }                        
+                                }
+    
+                                if(this.flag==4)
+                                {
+                                    if(this.type=="box")
+                                    {
+                                        ctx.clearRect(this.x,this.y,this.width,this.height);
+                                        ctx.rect(this.x,this.y,this.width,this.height);
+                                        ctx.fillStyle="#9EA9BF";
+                                        ctx.fillRect(this.x,this.y-6,this.width,this.height);                                      
+                                    }
+                                    //this.color="white";//-----------------------------------?
+                                    //this.originMiddle=this.middle;
+                                }           
+                            }
+
+                            if(direction==2)
+                            {
+                                if(this.flag==1){
+
+   
+                                    if(this.y<1.9*Y)
+                                        this.y+=3;
+                                    else    
+                                        this.flag=2;  
+                                     if(this.type=="box")
+                                    {
+                                        ctx.clearRect(this.x,this.y,this.width,this.height);
+                                        ctx.rect(this.x,this.y,this.width,this.height);
+                                        ctx.fillStyle="#9EA9BF";
+                                        ctx.fillRect(this.x,this.y-6,this.width,this.height);                                      
+                                    }                               
+                                                                
+                                }
+    
+                                if(this.flag==2){ 
+                                    if(this.type=="box")
+                                    {
+                                        ctx.clearRect(this.x,this.y,this.width,this.height);
+                                        ctx.rect(this.x,this.y,this.width,this.height);
+                                        ctx.fillStyle="#9EA9BF";
+                                        ctx.fillRect(this.x,this.y-6,this.width,this.height);                                      
+                                    }                            
+    
+                                    if(this.middle<mybox[select2].originMiddle){
+                                        this.middle+=1;
+                                        if(this.type=="text")
+                                            this.x=this.middle;
+                                        else
+                                            this.x=this.middle-this.width;
+                                    }                          
+                                    else
+                                        this.flag=3;                               
+    
+                                }
+                                if(this.flag==3){
+                                    if(this.y>Y)
+                                        this.y-=3;
+                                    else  
+                                        this.flag=4;   
+                                   if(this.type=="box")
+                                    {
+                                        ctx.clearRect(this.x,this.y,this.width,this.height);
+                                        ctx.rect(this.x,this.y,this.width,this.height);
+                                        ctx.fillStyle="#9EA9BF";
+                                        ctx.fillRect(this.x,this.y-6,this.width,this.height);                                      
+                                    }                        
+                                }
+    
+                                if(this.flag==4)
+                                {
+                                    if(this.type=="box")
+                                    {
+                                        ctx.clearRect(this.x,this.y,this.width,this.height);
+                                        ctx.rect(this.x,this.y,this.width,this.height);
+                                        ctx.fillStyle="#9EA9BF";
+                                        ctx.fillRect(this.x,this.y-6,this.width,this.height);                                      
+                                    }
+                                    //this.color="white";//-----------------------------------?
+                                    //this.originMiddle=this.middle;
+                                }           
+                            }
+                                       
+                        }                        
+                    }
+
+                    if(select1!=0 && select2!=0)
+                    {
+                        if(select2==this.id){
+                        //    console.log(mybox[select1].flag);
+                        //    console.log(mybox[select1].flag===1);
+                            if(direction==1)
+                            {
+                                if(this.flag==1){
+                                
+                                    if(this.type=="box")
+                                    {
+                                        ctx.clearRect(this.x,this.y,this.width,this.height);
+                                        ctx.rect(this.x,this.y,this.width,this.height);
+                                        ctx.fillStyle="#8083AE";
+                                        ctx.fillRect(this.x,this.y-6,this.width,this.height);                                       
+                                    }
+                                //    this.color="yellow";//---------------------------------?
+                                    if(mybox[select1].flag>=2)
+                                    {
+    
+                                        if(this.middle<mybox[select1].originMiddle){
+    
+                                            this.middle+=1;
+                                            if(this.type=="text")
+                                                this.x=this.middle;
+                                            else
+                                                this.x=this.middle-this.width/2;
+                                        }
+                                    else
+                                        this.flag=2;                                                            
+                                    }
+                                    else;
+                                    if(this.type=="box")
+                                    {
+                                        ctx.clearRect(this.x,this.y,this.width,this.height);
+                                        ctx.rect(this.x,this.y,this.width,this.height);
+                                        ctx.fillStyle="#8083AE";
+                                        ctx.fillRect(this.x,this.y-6,this.width,this.height);                                       
+                                    }
+        
+    
+                                }   
+                                else if(this.flag==2)
+                                {
+                                    if(this.type=="box")
+                                    {
+                                        ctx.clearRect(this.x,this.y,this.width,this.height);
+                                        ctx.rect(this.x,this.y,this.width,this.height);
+                                        ctx.fillStyle="#EFBCCD";
+                                        ctx.fillRect(this.x,this.y-6,this.width,this.height);                                       
+                                    }
+                                //    this.color="white";
+                                }               
+                            }
+                            
+                            if(direction==2)
+                            {
+                                if(this.flag==1){
+                                
+                                    if(this.type=="box")
+                                    {
+                                        ctx.clearRect(this.x,this.y,this.width,this.height);
+                                        ctx.rect(this.x,this.y,this.width,this.height);
+                                        ctx.fillStyle="#8083AE";
+                                        ctx.fillRect(this.x,this.y-6,this.width,this.height);                                       
+                                    }
+                                //    this.color="yellow";//---------------------------------?
+                                    if(mybox[select1].flag>=2)
+                                    {
+    
+                                        if(this.middle>mybox[select1].originMiddle){
+    
+                                            this.middle-=1;
+                                            if(this.type=="text")
+                                                this.x=this.middle;
+                                            else
+                                                this.x=this.middle-this.width/2;
+                                        }
+                                    else
+                                        this.flag=2;                                                            
+                                    }
+                                    else;
+                                    if(this.type=="box")
+                                    {
+                                        ctx.clearRect(this.x,this.y,this.width,this.height);
+                                        ctx.rect(this.x,this.y,this.width,this.height);
+                                        ctx.fillStyle="#8083AE";
+                                        ctx.fillRect(this.x,this.y-6,this.width,this.height);                                       
+                                    }
+        
+    
+                                }   
+                                else if(this.flag==2)
+                                {
+                                    if(this.type=="box")
+                                    {
+                                        ctx.clearRect(this.x,this.y,this.width,this.height);
+                                        ctx.rect(this.x,this.y,this.width,this.height);
+                                        ctx.fillStyle="#EFBCCD";
+                                        ctx.fillRect(this.x,this.y-6,this.width,this.height);                                       
+                                    }
+                                //    this.color="white";
+                                }               
+                            }
+
+                        }                        
+                    }
+
+
+                    if(mybox[select1].flag==4 && mybox[select2].flag== 2)
+                    {
+                        swapArr(mybox,select1,select2);
+                        swapArr(value,select1,select2);
+
+                        //一定要记得修改id！！！！
+                        let id=mybox[select1].id;
+                        mybox[select1].id=mybox[select2].id;
+                        mybox[select2].id=id;
+
+                        let id1=value[select1].id;
+                        value[select1].id=value[select2].id;
+                        value[select2].id=id1;
+
+                        let middle=mybox[select1].originMiddle;
+                        mybox[select1].originMiddle=mybox[select2].originMiddle;
+                        mybox[select2].originMiddle=middle;
+
+                        mybox[select1].middle=mybox[select1].originMiddle;
+                        mybox[select2].middle=mybox[select2].originMiddle;
+                        
+                        let g=gao[select1];
+                        gao[select1]=gao[select2];
+                        gao[select2]=g;
+
+                    /*    mybox[select1].flag=1;
+                        mybox[select2].flag=1;
+                        select1=0;
+                        select2=0;*/
+                    }
+
+                    
+
+                }
+
+            }
+            console.log(gao);
+            
+            function updateArea()
+            {
+                myArea.clear();
+                myArea.frameNo++;
+                clearInterval(timer); 
+                timer=setInterval(updateArea,document.getElementById("cowbell").value);
+                console.log(document.querySelector("h1").innerText);
+
+                if(document.querySelector("h1").innerText=="已完成从小到大排序"||document.querySelector("h1").innerText=="已完成从大到小排序")
+                {
+                    //console.log("恢复状态");
+                    document.getElementById("small").disabled=false;
+                    document.getElementById('small').style.color = "white";
+                    document.getElementById('small').style.backgroundColor = "#BD92C4";
+                    document.getElementById("big").disabled=false;    
+                    document.getElementById('big').style.color = "white";
+                    document.getElementById('big').style.backgroundColor = "#BD92C4";                       
+                }
+                if(document.querySelector("h1").innerText==="正在从大到小排序"||document.querySelector("h1").innerText==="正在从小到大排序")
+                {
+                    //console.log("禁止点击");
+                    document.getElementById("small").disabled=true;
+                    document.getElementById('small').style.color = "#white";
+                    document.getElementById('small').style.backgroundColor = "#cc6699";
+                    document.getElementById("big").disabled=true; 
+                    document.getElementById('big').style.color = "#white";     
+                    document.getElementById('big').style.backgroundColor = "#cc6699";    
+                }
+                
+
+
+                //完成否？
+                if(direction==1)
+                {//小->大
+                    let j;
+                    for(j=1;j<gao.length;j++)
+                    {
+                        if(gao[j]>gao[j+1])
+                        break;
+                    }
+                    if(j===gao.length)
+                    {
+                        let h1=document.querySelector("h1");
+                        h1.innerText="已完成从小到大排序";
+
+                    }
+                }
+                //完成否？
+                if(direction==2)
+                {//小->大
+                    let j;
+                    for(j=1;j<gao.length;j++)
+                    {
+                        if(gao[j]<gao[j+1])
+                        break;
+                    }
+                    if(j===gao.length)
+                    {
+                        let h1=document.querySelector("h1");
+                        h1.innerText="已完成从大到小排序";
+
+                    }
+                }
+                //
+
+                if(direction==1)
+                {//小->大
+                    while(select1<=mybox.length)
+                    {
+                        let i;
+                        for(i=select1;i>0;i--)
+                            if(gao[i]>gao[select1])
+                                break;
+                        if(i!=0)
+                        {
+                            select2=i;       
+                            break;                         
+                        }
+                        
+                        else
+                        {
+                            select1++;
+                        }
+                    }
+                    if(select1>mybox.length)
+                    {
+                        select1=0;
+                        select2=0;
+                    }                    
+                }
+                if(direction==2)
+                {
+                    while(select2<=mybox.length)
+                    {
+                        let i;
+                        for(i=select2;i>0;i--)
+                            if(gao[i]<gao[select2])
+                                break;
+                        if(i!=0)
+                        {
+                            select1=i;       
+                            break;                         
+                        }
+                        
+                        else
+                        {
+                            select2++;
+                        }
+                    }
+                    if(select2>mybox.length)
+                    {
+                        select1=0;
+                        select2=0;
+                    }                     
+                }
+
+          //      select1=4;
+            //    select2=2;
+
+                for(let i=1;i<gao.length;i++)
+                {
+                    mybox[i].newPos(); 
+                    value[i].newPos();
+                    mybox[i].update();       
+                    value[i].update();
+                }
+
+                
+                if(mybox[select1].flag==2 && mybox[select2].flag== 4)
+                {
+                    //反着的
+                    mybox[select1].flag=1;
+                    mybox[select2].flag=1;
+                    value[select1].flag=1;
+                    value[select2].flag=1;
+
+                }
+            }
+
+//----------------------键盘---------------------------
+            function arrow(event)
+            {
+                if(event.key==="ArrowLeft")
+                {
+                    document.getElementById("cowbell").value--;
+                    
+                }
+                else if(event.key==="ArrowRight")
+                {
+                    document.getElementById("cowbell").value++;                   
+                }
+                    
+            }
+            document.addEventListener('keydown',arrow);
+
+//-------------------------------------------------------------------------------------------------------
+            function swapArr(arr, index1, index2) {
+                arr[index1] = arr.splice(index2, 1, arr[index1])[0];
+                return arr;
+            }
+
+            function getMax(arr)
+            {
+                let max=0;
+                for(let i=0;i<arr.length;i++)
+                {
+                    if(max<arr[i])
+                    max=arr[i];
+                }
+                return max;
+            }
+            
+            function smallBigintervalStart()
+            {
+                let h1=document.querySelector("h1");
+                h1.innerText="正在从小到大排序";
+
+                clearInterval(timer); 
+                direction=1;
+                select1=1;           //选择一个方块进行移动
+                select2=0;
+                timer=setInterval(updateArea,10);
+            }
+
+            function bigSmallintervalStart()
+            {
+                let h1=document.querySelector("h1");
+                h1.innerText="正在从大到小排序";
+
+                clearInterval(timer); 
+                direction=2;
+                select1=0;
+                select2=1;
+            //    select1=gao.length-1;
+            //    select2=gao.length;
+                timer=setInterval(updateArea,10);
+            }
+
+            function isNum(x)
+            {
+                if((x=='0') || (x=='1')|| (x=='2')|| (x=='3')|| (x=='4')|| (x=='5')|| (x=='6')|| (x=='7')|| (x=='8')|| (x=='9'))
+                return true;
+                else
+                return false;
+            }
+            function stop()
+            {
+                clearInterval(timer);
+            }
+            function reStart()
+            {
+                timer=setInterval(updateArea,document.getElementById("cowbell").value);
+            }
+
+
+        </script>
+    </head>
+
+    <body onload=StartLoad()>
+        <div id="view">
+
+        </div>
+        <div id="control" style="text-align:center;vertical-align:middel;">
+            <h1>操作信息</h1>   
+            <input placeholder="输入待排序数字" onkeyup="value=value.replace(/[^\0-9\.]/g,'')" onpaste="value=value.replace(/[^\0-9\.]/g,'')" oncontextmenu = "value=value.replace(/[^\0-9\.]/g,'')" type="text" id="text" name="text" maxlength="100">
+            <br/>
+            <br/>
+            <button onmousedown="produce()" id="produce">生成柱状图</button>
+            <br/>
+            <br/>
+            <button onmousedown="smallBigintervalStart()" id="small">点击从小到大排序</button>
+            <br/>
+            <br/>
+            <button onmousedown="bigSmallintervalStart()" id="big">点击从大到小排序</button>
+            <br/>
+            <br/>
+            <button onmousedown="window.location.reload()">清空画布</button>
+            <br/>
+            <br/>
+            <button onmousedown="stop()">暂停</button>
+            <button onmousedown="reStart()">继续</button>
+            <br/>
+            <br/>
+            <!-- <label for="cowbell">调节速度</label> -->
+            <input type="range" id="cowbell" name="cowbell" min="0.0" max="50" value="25" step="0.05">
+            
+                     
+        </div>
+
+       
+    </body>
+</html>

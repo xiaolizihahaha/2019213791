@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <meta charset="utf-8">
+        <title>期末大作业</title>
+        <link href="index.css" type="text/css" rel="stylesheet">
+        <script>
+
+
+            //获取屏幕的宽度、高度,根据设计图中的canvas画布的占比进行设置
+            var clientWidth = document.documentElement.clientWidth;
+            var clientHeight = document.documentElement.clientHeight;
+            
+            var mybox=[];           //存放动态创建的每个小格子
+            var value=[];           //存放动态创建的每个小格子的高度的值
+            var gao=[0,1,2,7,4,9];    //存放每一小格的高度
+            var select1=3;           //选择一个方块进行移动
+            var select2=1;
+
+            var Y=Math.floor(clientHeight)*2/5;     //表示每一个小格的Y轴开始位置
+            var Width=Math.floor(clientWidth)*1/25; //myArea.canvas.width/20;    ------表示每一个小格的宽度
+            var myArea={
+                canvas:document.createElement("canvas"),
+                start:function(){
+                    this.canvas.width=Math.floor(clientWidth)*4/5;
+                    this.canvas.height=Math.floor(clientHeight)*4/5;
+
+                    this.canvas.style.border="2px solid #BC8EBD";
+                    this.canvas.style.background="#EFBCCD";                    
+                    this.context=this.canvas.getContext("2d");
+
+                    document.body.insertBefore(this.canvas,document.body.childNodes[0]);
+                    this.frameNo=0;
+                    this.interval=setInterval(updateArea,10);
+                },
+                clear:function(){
+                    this.context.clearRect(0,0,this.canvas.width,this.canvas.height);
+                },
+                stop:function(){
+                    clearInterval(this.interval);
+                }
+            }
+
+            
+            function StartLoad()
+            {
+                myArea.start();
+                
+                //计算小格子高度的总和，便于后续设置每个小个子的高度，防止溢出
+                let sum=0;
+                for(let i=1;i<gao.length;i++)
+                sum+=gao[i];
+
+                //创建每个小格子  0位置不用，但占着作为中间变量
+                mybox.push(new component(0,0,0,"white",0,0));
+                value.push(new component(0));
+
+                for(let i=1;i<gao.length;i++)
+                {
+                    mybox.push(new component(i,Width,-gao[i]*myArea.canvas.height/sum/1.1,"#BC8EBD",40+i*2*Width,Y))
+                    value.push(new component(i,Width,20,"black",40+i*2*Width,Y,"text",gao[i],"20px"))
+                }
+                
+            }
+
+            function component(id,width,height,color,middle,y,type,text,size)
+            {
+                
+                this.id=id;
+                this.flag=1;        //1:本位    2：下移位   3:左右移动位    4.新位置
+                this.width=width;
+                this.height=height;
+
+                this.color=color;
+                this.middle=middle;                 //辅助变量
+                this.originMiddle=middle;           //记录每个固定分好的的格子          
+                this.y=y;
+                this.type=type;
+                this.text=text;
+                this.size=size;
+                 
+
+                this.update=function(){
+                    ctx=myArea.context; 
+
+
+                    if(type=="text"){
+                        this.x=this.middle;
+                        ctx.font=this.size;
+                        ctx.fillStyle=color;
+                        ctx.fillText(this.text,this.x,this.y);
+                    }
+                    else{
+                        this.x=this.middle-this.width/2;  
+                        ctx.fillStyle=color;
+                        ctx.fillRect(this.x,this.y,this.width,this.height);                    
+                    }                    
+                }
+                this.newPos=function(){
+                    if(select1!=0)
+                    {
+                        if(select1==this.id){
+                            if(this.flag==1){
+                                if(this.y<1.9*Y)
+                                    this.y+=3;
+                                else    
+                                    this.flag=2;                                         
+                            }
+                            if(this.flag==2){   
+                                if(this.middle>mybox[select2].originMiddle){
+                                    this.middle-=1;
+                                    if(this.type=="text")
+                                        this.x=this.middle;
+                                    else
+                                        this.x=this.middle-this.width;
+                                }                          
+                                else
+                                    this.flag=3;                               
+                            }
+                            if(this.flag==3){
+                                if(this.y>Y)
+                                    this.y-=3;
+                                else  
+                                    this.flag=4;                           
+                            }
+                            if(this.flag==4)
+                            {
+                                this.originMiddle=this.middle;
+                            }                      
+                        }                        
+                    }
+
+                    if(select2!=0)
+                    {
+                        if(select2==this.id){
+                        //    console.log(mybox[select1].flag);
+                        //    console.log(mybox[select1].flag===1);
+                            if(this.flag==1){
+                                this.color="yellow";//---------------------------------?
+                                if(mybox[select1].flag>=2)
+                                {
+                                    if(this.middle<mybox[select1].originMiddle){
+
+                                        this.middle+=1;
+                                        if(this.type=="text")
+                                            this.x=this.middle;
+                                        else
+                                            this.x=this.middle-this.width/2;
+                                    }
+                                else
+                                    this.flag=2;                                                            
+                                }
+                                else;
+    
+
+                            }   
+                            else if(this.flag==2)
+                            {
+                                this.color="white";
+                            }                    
+
+                        }                        
+                    }
+
+
+                    if(mybox[select1].flag==4 && mybox[select2].flag== 2)
+                    {
+                        swapArr(mybox,select1,select2);
+                        swapArr(value,select1,select2);
+                        swapArr(gao,select1,select2);
+
+                        mybox[select1].flag=1;
+                        mybox[select2].flag=1;
+                        select1=0;
+                        select2=0;
+                    }
+
+                    
+
+                }
+
+            }
+            
+            function updateArea()
+            {
+                myArea.clear();
+                myArea.frameNo++;
+
+
+                for(let i=1;i<gao.length;i++)
+                {
+                    mybox[i].newPos(); 
+                    value[i].newPos();
+                    mybox[i].update();       
+                    value[i].update();
+                }
+                console.log(mybox[select2].flag);          
+            }
+
+            function swapArr(arr, index1, index2) {
+                arr[index1] = arr.splice(index2, 1, arr[index1])[0];
+                return arr;
+            }
+        </script>
+    </head>
+
+    <body onload=StartLoad()>
+       
+    </body>
+</html>

@@ -1,0 +1,98 @@
+body{
+    display: grid;
+    grid-template-columns: 75% 25%;
+    background-color: antiquewhite;
+}
+div#view{
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+
+div#control{
+    margin-top: -88.5vh;
+    margin-left: -4vw;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    background-color: #EFBCCD;
+    border:2px solid #BD92C4;
+}
+
+h1{
+    text-align: center;
+    color:#be6abe;
+
+}
+
+button {
+    background-color: #BC8EBD; 
+    border:2px solid #f594b4;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    color:#ffffff;
+    font-size: large;
+    font-weight:550;
+
+}
+button:hover {
+    background-color: rgb(146, 77, 156);
+}
+
+input#text{
+    
+    border: #EFBCCD;
+    outline-style: none ;
+    border: 1px solid #ccc; 
+    border-radius: 3px;
+    padding: 13px 14px;
+    width: 20vw;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: "Microsoft soft";
+}
+
+input#text:focus{
+    border-color: #f594b4;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)
+}
+label{
+    color:#ffffff;
+    font-size: large;
+    font-weight:550;
+}
+
+input[type=range] {
+    -webkit-appearance: none;
+    width: 20vw;
+    background: -webkit-linear-gradient(#059CFA, #059CFA) no-repeat; background-size: 0% 100%;
+    border-radius: 10px; /*这个属性设置使填充进度条时的图形为圆角*/
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    height: 15px;
+    border-radius: 10px; /*将轨道设为圆角的*/
+    box-shadow: 0 1px 1px #def3f8, inset 0 .125em .125em #0d1112; /*轨道内置阴影效果*/
+}
+input[type=range]:focus {
+    outline: none;/*原始的控件获取到焦点时，会显示包裹整个控件的边框，所以还需要把边框取消。*/
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 25px;
+    width: 25px;
+    margin-top: -5px; /*使滑块超出轨道部分的偏移量相等*/
+    background: #BC8EBD; 
+    border-radius: 50%; /*外观设置为圆形*/
+    border: solid 0.125em rgba(205, 224, 230, 0.5); /*设置边框*/
+    box-shadow: 0 .125em .125em #3b4547; /*添加底部阴影*/
+}
+
+
+
+
