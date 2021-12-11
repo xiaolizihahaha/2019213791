@@ -1,0 +1,198 @@
+
+div#view{
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+canvas{
+    width:65vw;
+    height:95vh;
+    min-height: 515px;
+    /* min-width: 351px; */
+}
+div#control{
+    width:28vw;
+    height:95vh;
+    min-height: 515px;
+    /* min-width: 135px; */
+    position: absolute;
+    top:1.2vh;
+    left:73vw;
+    margin-left: -4vw;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    background-color: #050801;
+}
+
+
+h1{
+    font-size: 3vw;
+    text-align: center;
+    color:#ffcf00;
+    text-shadow:
+                0 0 25px #ffcf00,
+                0 0 50px #ffcf00,
+                0 0 200px #ffcf00;
+}
+
+
+
+
+
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    display: grid;
+    grid-template-columns: 75% 25%;
+    background: #050801;
+    font-family: 'Raleway', sans-serif;
+    font-weight: bold;
+}
+a{
+    position: relative;
+    display: inline-block;
+    padding: 1vw 1vw;
+    height: 10vh;
+    margin: 1vh 1vh;
+    padding-top: 3vh;
+    
+    color: #ffcf00;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: 0.5s;
+    letter-spacing: 4px;
+    overflow: hidden;
+    font-size: 2vw;
+    border-radius: 15%;
+}
+
+@media(max-width:800px){
+    a{
+      font-size: 3vw;
+    }
+  }
+
+
+a:hover{
+    background: #fae37d;
+    color: #050801;
+    box-shadow: 0 0 5px #fae37d,
+                0 0 25px #fae37d,
+                0 0 50px #fae37d,
+                0 0 200px #fae37d;
+}
+a:nth-child(1){
+    filter: hue-rotate(270deg);
+}
+a:nth-child(2){
+    filter: hue-rotate(110deg);
+}
+a span{
+    position: absolute;
+    display: block;
+}
+a span:nth-child(1){
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg,transparent,#ffcf00);
+    animation: animate1 2s linear infinite;
+}
+@keyframes animate1{
+    0%{
+        left: -100%;
+    }
+    50%,100%{
+        left: 100%;
+    }
+}
+
+a span:nth-child(3){
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(270deg,transparent,#ffcf00);
+    animation: animate3 2s linear infinite;
+    animation-delay: 0.50s;
+}
+@keyframes animate3{
+    0%{
+        right: -100%;
+    }
+    50%,100%{
+        right: 100%;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+input#text{
+    width: 20vw;
+    padding: 0px;
+    background-color: #ffcf00;
+    color: #414240;
+    outline-style: none ;
+    border: 1px solid #ffcf00; 
+    border-radius: 3px;
+    padding: 13px 14px;
+    font-size: 2vw;
+    font-weight: 600;
+    font-family: "Microsoft soft";
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+    box-shadow:
+                0 0 50px #ffcf00,
+                0 0 100px #ffcf00;    
+}
+
+input#text:focus{
+   
+    background-color: #fae37d;
+
+}
+
+
+
+
+input[type=range] {
+    -webkit-appearance: none;
+    width: 20vw;
+    background: -webkit-linear-gradient(#059CFA, #059CFA) no-repeat; background-size: 0% 100%;
+    border-radius: 10px; /*这个属性设置使填充进度条时的图形为圆角*/
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    height: 15px;
+    border-radius: 10px; /*将轨道设为圆角的*/
+    box-shadow: 0 1px 1px #def3f8, inset 0 .125em .125em #0d1112; /*轨道内置阴影效果*/
+}
+input[type=range]:focus {
+    outline: none;/*原始的控件获取到焦点时，会显示包裹整个控件的边框，所以还需要把边框取消。*/
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 25px;
+    width: 25px;
+    margin-top: -5px; /*使滑块超出轨道部分的偏移量相等*/
+    background: #ffcf00; 
+    border-radius: 50%; /*外观设置为圆形*/
+    border: solid 0.125em rgba(255, 250, 250, 0.849); /*设置边框*/
+    box-shadow: 0 .125em .125em #ffffff; /*添加底部阴影*/
+}
+
+
+
+
